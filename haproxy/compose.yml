@@ -1,0 +1,24 @@
+version: '3.9'
+
+services:
+  haproxy:
+    image: haproxy:lts-alpine
+    container_name: haproxy
+    restart: unless-stopped
+    networks:
+      - haproxy_network
+    environment:
+      TZ: "Europe/Warsaw"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8404:8404"
+      - "6443:6443"
+    volumes:
+      - ./config/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+      - ./security:/usr/local/etc/haproxy/sec
+      - ./certs:/usr/local/etc/haproxy/certs
+      - ./errors:/usr/local/etc/haproxy/errors
+
+networks:
+  haproxy_network:
